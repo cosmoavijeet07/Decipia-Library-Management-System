@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+
+{% block title %}
+Edit Book Content
+{% endblock %}
+
+{% block style %}
+<style>
+    .edit-book-container {
+        padding: 20px;
+        margin-top: 80px; /* Ensure it's below the header, considering fixed position */
+        background: #fff; /* White background for the form area */
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1); /* Soft shadow for depth */
+        max-width: 600px;
+        margin: auto; /* Center the container */
+    }
+
+    .form-control {
+        border: 1px solid #d3d3d3; /* Light grey border */
+    }
+
+    .form-control:focus {
+        border-color: #5d3fd3; /* Purple border on focus */
+        box-shadow: 0 0 0 0.2rem rgba(93, 63, 211, 0.25); /* Light purple glow */
+    }
+
+    .btn-primary {
+        background-color: #5d3fd3; /* Match header color */
+        border-color: #5d3fd3;
+    }
+
+    .btn-primary:hover {
+        background-color: #4b2fb1; /* Slightly darker on hover */
+    }
+</style>
+{% endblock %}
+
+{% block body %}
+<br>
+<div class="container edit-book-container">
+    <h1 class="text-center mb-4">Edit Book Content</h1>
+    <form method="POST">
+        {{ form.hidden_tag() }}
+        <div class="mb-3">
+            {{ form.content.label(class="form-label") }}
+            {{ form.content(class="form-control", rows="10") }}
+            {% if form.content.errors %}
+                <div class="alert alert-danger mt-2">
+                    {% for error in form.content.errors %}
+                        <p>{{ error }}</p>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </div>
+        <div class="d-grid gap-2">
+            <button type="submit" class="btn btn-primary">Update Content</button>
+            <a href="{{ url_for('lib.admindashboard') }}" class="btn btn-primary mt-3">Back to Library Dashboard</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

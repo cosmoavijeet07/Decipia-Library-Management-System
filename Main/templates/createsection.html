@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+
+{% block title %}
+Create Section
+{% endblock %}
+
+{% block style %}
+<style>
+    .form-container {
+        margin-top: 2rem;
+        padding: 2rem;
+        background-color: #ffffff; /* White background for the form */
+        border-radius: 15px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+    }
+
+    .dashboard-btn {
+        background-color: #b388ff; /* Light purple background */
+        border: none;
+        padding: 8px 16px;
+        border-radius: 8px;
+        color: white;
+        text-decoration: none;
+        transition: background-color 0.3s;
+    }
+
+    .dashboard-btn:hover {
+        background-color: #7c4dff; /* Slightly darker purple on hover */
+    }
+</style>
+{% endblock %}
+
+{% block body %}
+<br>
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8 form-container">
+            <h2>Create a New Section</h2>
+            <form method="post">
+                {{ form.hidden_tag() }}
+                <div class="mb-3">
+                    {{ form.title.label(class="form-label") }}
+                    {{ form.title(class="form-control") }}
+                </div>
+                <div class="mb-3">
+                    {{ form.description.label(class="form-label") }}
+                    {{ form.description(class="form-control") }}
+                </div>
+                <div class="mb-3">
+                    {{ form.submit(class="btn btn-primary") }}
+                    <a href="{{ url_for('lib.admindashboard') }}" class="dashboard-btn">Library Dashboard</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+
+{% block title %}Edit Section{% endblock %}
+
+
+{% block style %}
+<style>
+    .container1 {
+        padding-top: 20px;
+        margin-left: 40px;
+        background-color: #f8f9fa;
+        border-radius: 8px;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        margin-top: 100px;  /* Provide adequate space from fixed header */
+    }
+    .header-custom {
+        background-color: #a292ff;  /* Custom light purple */
+        color: white;
+        padding: 8px 16px;
+        border-bottom: 1px solid #ddd;
+        font-family: Arial, sans-serif;
+    }
+
+    .form-check-label {
+        margin-left: 10px;
+    }
+    .btn-back {
+        background-color: #6c5ce7; /* Darker shade of purple for contrast */
+        border-color: #6c5ce7;
+        color: white;
+    }
+    .btn-back:hover {
+        background-color: #5e54d8; /* Lightly darker on hover */
+        border-color: #5e54d8;
+    }
+</style>
+{% endblock style %}
+
+{% block body %}
+<br>
+<div class="container1">
+    <div class="header-custom mb-4">
+        <h2>Edit Section - {{ section.title }}</h2>
+    </div>
+    <form method="POST">
+        {% for book in books %}
+        <div class="mb-3 form-check">
+            <input type="checkbox" class="form-check-input" id="book{{ book.id }}" name="books" value="{{ book.id }}" {{ 'checked' if book.section_id == section.id }}>
+            <label class="form-check-label" for="book{{ book.id }}">
+                {{ book.title }}
+            </label>
+        </div>
+        {% endfor %}
+        <button type="submit" class="btn btn-primary">Update Section</button>
+        <a href="{{ url_for('lib.admindashboard') }}" class="btn btn-back mt-3">Back to Library Dashboard</a>
+    </form>
+</div>
+{% endblock body %}

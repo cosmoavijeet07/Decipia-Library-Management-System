@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+
+{% block title %}Admin Login{% endblock %}
+
+{% block style %}
+    {{ super() }}  /* Inherit styles from base and add custom styles below */
+    .login-container {
+        padding-top: 100px; /* Space from top considering fixed header */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: calc(100% - 140px); /* Full height minus header and footer */
+    }
+    .login-box {
+        width: 300px;
+        padding: 20px;
+        border: 1px solid #ccc;
+        border-radius: 10px;
+        background-color: #f3e8ff; /* Lighter purple background for the form */
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+    .form-group {
+        margin-bottom: 15px;
+    }
+    .form-control {
+        border-radius: 5px;
+    }
+    .btn-custom {
+        background-color: #4a2a8f; /* Deep purple button */
+        border: none;
+        color: white;
+        padding: 10px 20px;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+    .btn-custom:hover {
+        background-color: #382075;
+    }
+{% endblock %}
+
+{% block body %}
+    <div class="login-container">
+        <div class="login-box">
+            <h2 class="text-center mb-4">Admin Login</h2>
+            <form method="POST" action="{{ url_for('auth.admin_login') }}">
+                {{ form.hidden_tag() }}
+                <div class="form-group">
+                    {{ form.username_or_email.label(class="form-label") }}
+                    {{ form.username_or_email(class="form-control") }}
+                </div>
+                <div class="form-group">
+                    {{ form.password.label(class="form-label") }}
+                    {{ form.password(class="form-control") }}
+                </div>
+                <div class="d-grid gap-2">
+                    {{ form.submit(class="btn btn-custom mt-3") }}
+                </div>
+                <a href="/" class="btn btn-secondary w-100 mt-2">Back to Home</a>
+            </form>
+        </div>
+    </div>
+{% endblock %}

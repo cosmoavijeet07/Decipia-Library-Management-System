@@ -1,0 +1,104 @@
+{% extends "base.html" %}
+
+{% block title %}User Profile{% endblock %}
+
+{% block style %}
+<style>
+    .profile-container {
+        max-width: 800px;
+        margin: auto;
+        background-color: #f2e6ff; /* Lighter shade for the form background */
+        padding: 20px;
+        border-radius: 15px;
+        box-shadow: 0 4px 8px rgba(93, 63, 211, 0.2);
+    }
+
+    .user-details {
+        background-color: #e6d4ff; /* Slightly different purple for contrast */
+        padding: 15px;
+        border-radius: 8px;
+        margin-bottom: 20px;
+    }
+
+    .form-section {
+        background-color: #ffffff;
+        padding: 15px;
+        border-radius: 8px;
+    }
+
+    .form-control {
+        border-radius: 5px;
+        border: 1px solid #b19cd9; /* Soft purple borders for inputs */
+    }
+
+    .btn-purple {
+        background-color: #5d3fd3;
+        border: none;
+        color: white;
+    }
+
+    .btn-purple:hover {
+        background-color: #4e32a1;
+        opacity: 0.9;
+    }
+
+    .back-button {
+        text-decoration: none;
+        color: #5d3fd3;
+        display: inline-block;
+        margin-top: 20px;
+    }
+
+    .back-button:hover {
+        text-decoration: underline;
+    }
+</style>
+{% endblock style %}
+
+{% block body %}
+<div class="container mt-5">
+    <div class="profile-container">
+        <div class="user-details">
+            <h4>Profile Details</h4>
+            <p><strong>Username:</strong> {{ user.username }}</p>
+            <p><strong>Email:</strong> {{ user.email }}</p>
+            <a href="{{ url_for('user.userdashboard') }}" class="btn btn-purple">← Back to Dashboard</a>
+            <!-- Additional user details can be displayed here -->
+        </div>
+        <div class="form-section">
+            <h4>Update Profile</h4>
+            <form action="{{ url_for('user.userprofile') }}" method="post">
+                {{ form.hidden_tag() }}
+                <div class="mb-3">
+                    <label for="current_password" class="form-label">Current Password</label>
+                    {{ form.current_password(class="form-control") }}
+                    {% if form.current_password.errors %}
+                    <div class="alert alert-danger">
+                        {{ form.current_password.errors[0] }}
+                    </div>
+                    {% endif %}
+                </div>
+                <div class="mb-3">
+                    <label for="new_username" class="form-label">New Username (optional)</label>
+                    {{ form.new_username(class="form-control") }}
+                    {% if form.new_username.errors %}
+                    <div class="alert alert-danger">
+                        {{ form.new_username.errors[0] }}
+                    </div>
+                    {% endif %}
+                </div>
+                <div class="mb-3">
+                    <label for="new_password" class="form-label">New Password (optional)</label>
+                    {{ form.new_password(class="form-control") }}
+                    {% if form.new_password.errors %}
+                    <div class="alert alert-danger">
+                        {{ form.new_password.errors[0] }}
+                    </div>
+                    {% endif %}
+                </div>
+                <button type="submit" class="btn btn-purple">Update Profile</button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock body %}

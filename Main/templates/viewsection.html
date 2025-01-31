@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Section View
+{% endblock %}
+
+{% block style %}
+    .table {
+        background-color: #f9f3ff;
+        border-radius: 8px;
+        overflow: hidden;
+    }
+    .btn-request {
+        background-color: #7c4dff;
+        border: none;
+        color: white;
+    }
+    .btn-request:hover {
+        background-color: #5d3fd3;
+    }
+    .back-btn {
+        background-color: #9575cd;
+        color: white;
+        margin-bottom: 20px;
+    }
+    .back-btn:hover {
+        background-color: #7e57c2;
+    }
+    .username-display {
+        position: absolute;
+        right: 20px;
+        top: 20px;
+        color: #5d3fd3;
+        font-size: 18px;
+    }
+{% endblock %}
+
+{% block body %}
+    <div class="username-display">
+        {{ current_user.username }}
+    </div>
+
+    <div class="container mt-4">
+        <a href="{{ url_for('user.userdashboard') }}" class="btn back-btn">Back to Dashboard</a>
+        <h1>{{ section.title }}</h1>
+        <p>{{ section.description }}</p>
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Author</th>
+                    <th>Genre</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for book in section.books.all() %}
+                <tr>
+                    <td>{{ book.title }}</td>
+                    <td>{{ book.author }}</td>
+                    <td>{{ book.genre }}</td>
+                    <td>
+                        <form action="{{ url_for('user.requestbook', book_id=book.id) }}" method="post">
+                            <button type="submit" class="btn btn-request">Request</button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

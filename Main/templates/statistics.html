@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+
+{% block title %}Library Statistics{% endblock %}
+
+{% block style %}
+<!-- Additional styles can be added here if needed -->
+    .card {
+        transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+    }
+
+    .card:hover {
+        transform: scale(1.05);
+        box-shadow: 0 4px 20px rgba(0,0,0,0.25);
+    }
+{% endblock %}
+
+{% block body %}
+<br>
+<br>
+<div class="container mt-4">
+    <h1 class="text-center">Library Statistics</h1>
+    <div class="row text-center mt-4">
+        <div class="col-md-4 p-3">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h5 class="card-title">Total Books</h5>
+                    <p class="card-text">{{ total_books }}</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 p-3">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h5 class="card-title">Total Users</h5>
+                    <p class="card-text">{{ total_users }}</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 p-3">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h5 class="card-title">Total Issued Books</h5>
+                    <p class="card-text">{{ total_issued_books }}</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 p-3">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h5 class="card-title">Total Requested Books</h5>
+                    <p class="card-text">{{ total_requested_books }}</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 p-3">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h5 class="card-title">Total Sections</h5>
+                    <p class="card-text">{{ total_sections }}</p>
+                </div>
+            </div>
+        </div>
+        <div class="back-button">
+            <a href="{{ url_for('lib.admindashboard') }}" class="btn btn-secondary">Back to Dashboard</a>
+        </div>
+    </div>
+    <!-- Image of Graph, if available -->
+    {% if plot_url %}
+        <div class="mt-4 text-center">
+            <img src="data:image/png;base64,{{ plot_url }}" alt="Top 10 Most Requested Books" class="img-fluid">
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

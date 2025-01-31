@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+
+{% block title %}
+Requested Books
+{% endblock %}
+
+{% block style %}
+<style>
+    .username-display {
+        font-size: 36px;
+        color: #5d3fd3; /* Matching header color */
+    }
+    table {
+        width: 90%;
+        margin: 20px auto;
+        border-collapse: collapse;
+    }
+    th, td {
+        border: 1px solid #ddd;
+        padding: 8px;
+        text-align: left;
+    }
+    th {
+        background-color: #5d3fd3;
+        color: white;
+    }
+    tr:nth-child(even) {background-color: #f2f2f2;}
+</style>
+{% endblock %}
+
+{% block body %}
+
+<br>
+
+<div class="username-display">
+    Logged in as: {{ user.username }}
+</div>
+<div class="back-button">
+    <a href="{{ url_for('user.userdashboard') }}" class="btn btn-secondary">Back to Dashboard</a>
+</div>
+<table>
+    <thead>
+        <tr>
+            <th>Title</th>
+            <th>Author</th>
+            <th>Request Time</th>
+            <th>Issue Time</th>
+            <th>Status</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for book in requested_books %}
+        <tr>
+            <td>{{ book.title }}</td>
+            <td>{{ book.author }}</td>
+            <td>{{ book.request_time }}</td>
+            <td>{{ book.issue_time }}</td>
+            <td>{{ book.status }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

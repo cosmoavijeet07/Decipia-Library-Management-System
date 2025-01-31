@@ -1,0 +1,89 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Read Book - {{ book.title }}
+{% endblock %}
+
+{% block style %}
+    .book-container {
+        background: white;
+        padding: 20px;
+        border-radius: 10px;
+        margin: 20px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+    .book-details {
+        margin-bottom: 20px;
+    }
+    .feedback-container {
+        margin-top: 40px;
+    }
+    .feedback {
+        background: #f7f7f7;
+        padding: 15px;
+        border-radius: 8px;
+        margin-top: 10px;
+    }
+    .feedback-form {
+        margin-top: 20px;
+    }
+    .form-button {
+        background-color: #5d3fd3;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        padding: 10px 20px;
+    }
+    .back-button {
+        background-color: #a885d8;
+        border: none;
+        color: white;
+        padding: 5px 10px;
+        border-radius: 5px;
+        margin-top: 10px;
+    }
+{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <button class="back-button" href = "{{ url_for('user.userdashboard') }}">Back to Dashboard</button>
+        <h2 class="mt-4">{{ book.title }}</h2>
+        <div class="book-container">
+            <div class="book-details">
+                <h4>Author: {{ book.author }}</h4>
+                <p>Genre: {{ book.genre }}</p>
+                <p>Release Date: {{ book.releasedate.strftime('%Y-%m-%d') }}</p>
+                {% if book.pdf %}
+                    <a href="{{ url_for('user.download_file', filename=book.pdf) }}" class="form-button">Download PDF</a>
+                {% endif %}
+                <form action="{{ url_for('user.return_book', book_id=book.id) }}" method="post">
+                    <button type="submit" class="form-button">Return Book</button>
+                </form>
+            </div>
+        </div>
+        
+        <div class="feedback-container">
+            <h3>User Feedbacks</h3>
+            {% for feedback in book.feedbacks %}
+                <div class="feedback">
+                    <p>{{ feedback.user.username }}: {{ feedback.feedback }}</p>
+                </div>
+            {% endfor %}
+            
+            {% if not feedback_submitted %}
+                <div class="feedback-form">
+                    <form action="" method="post">
+                        {{ form.hidden_tag() }}
+                        <div class="mb-3">
+                            {{ form.feedback.label }}<br>
+                            {{ form.feedback(size=40) }}
+                        </div>
+                        <button type="submit" class="form-button">Submit Feedback</button>
+                    </form>
+                </div>
+            {% else %}
+                <div class="alert alert-info">You have already submitted feedback for this book.</div>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}

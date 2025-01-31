@@ -1,0 +1,91 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Read Book Details
+{% endblock title %}
+
+{% block style %}
+    <style>
+        .book-details {
+            background-color: #f4e8ff; /* Light purple for book details area */
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+
+        .feedback-sec {
+            background-color: #e6d4f8; /* Slightly darker purple for feedback area */
+            padding: 15px;
+            border-radius: 5px;
+        }
+
+        .feedback-form {
+            margin-top: 20px;
+        }
+
+        .back-button, .feedback-submit {
+            background-color: #9575cd; /* Moderate purple */
+            color: white;
+            border: none;
+        }
+
+        .back-button:hover, .feedback-submit:hover {
+            background-color: #7e57c2; /* Darker purple when hovered */
+        }
+
+        a {
+            color: #5e35b1; /* Deep purple for links */
+        }
+    </style>
+{% endblock style %}
+
+{% block body %}
+    <!-- Navigation Links -->
+    <br>
+    <br>
+    <div class="container mt-3">
+        <a href="{{ url_for('user.availablebooks') }}" class="btn back-button">Back to Available Books</a>
+        <a href="{{ url_for('user.userdashboard') }}" class="btn back-button">Back to Dashboard</a>
+    </div>
+
+    <!-- Book Details -->
+    <div class="container mt-3 book-details">
+        <h2>{{ book.title }}</h2>
+        <p><strong>Author:</strong> {{ book.author }}</p>
+        <p><strong>Genre:</strong> {{ book.genre }}</p>
+        <p><strong>Release Date:</strong> {{ book.releasedate.strftime('%Y-%m-%d') }}</p>
+        <p><strong>Price:</strong> ₹{{ book.price }}</p>
+        <p><strong>Description:</strong> {{ book.content }}</p>
+    </div>
+
+    <!-- Feedback Section -->
+    <div class="container feedback-sec">
+        <h4>Feedback</h4>
+        {% if book.feedbacks %}
+            {% for feedback in book.feedbacks %}
+                <div><strong>{{ feedback.user.username }}:</strong> {{ feedback.feedback }}</div>
+            {% endfor %}
+        {% else %}
+            <p>No feedback yet. Be the first to give feedback!</p>
+        {% endif %}
+    </div>
+
+    <!-- Feedback Form -->
+    {% if not feedback_submitted %}
+        <div class="container feedback-form">
+            <h4>Your Feedback</h4>
+            <form method="POST" action="{{ url_for('user.readbook', book_id=book.id) }}">
+                {{ form.hidden_tag() }}
+                <div class="mb-3">
+                    {{ form.feedback.label }}
+                    {{ form.feedback(class='form-control') }}
+                </div>
+                {{ form.submit(class='btn feedback-submit') }}
+            </form>
+        </div>
+    {% else %}
+        <div class="alert alert-info" role="alert">
+            You have already submitted feedback for this book.
+        </div>
+    {% endif %}
+{% endblock body %}

@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Create New Book
+{% endblock %}
+
+{% block style %}
+    {{ super() }}
+    .form-container {
+        background-color: #f3e8ff; /* Light purple */
+        padding: 20px;
+        border-radius: 8px;
+        margin-top: 50px;
+        box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    .btn-purple {
+        background-color: #5d3fd3;
+        color: white;
+    }
+    .btn-purple:hover {
+        background-color: #4c31bf;
+    }
+{% endblock %}
+
+{% block body %}
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-md-8 offset-md-2 form-container">
+                <h2 class="text-center">Add a New Book</h2>
+                <form method="POST" action="{{ url_for('lib.createbook') }}" enctype="multipart/form-data">
+                    {{ form.hidden_tag() }}
+                    <div class="mb-3">
+                        {{ form.title.label(class="form-label") }}
+                        {{ form.title(class="form-control") }}
+                    </div>
+                    <div class="mb-3">
+                        {{ form.author.label(class="form-label") }}
+                        {{ form.author(class="form-control") }}
+                    </div>
+                    <div class="mb-3">
+                        {{ form.content.label(class="form-label") }}
+                        {{ form.content(class="form-control") }}
+                    </div>
+                    <div class="mb-3">
+                        {{ form.genre.label(class="form-label") }}
+                        {{ form.genre(class="form-control") }}
+                    </div>
+                    <div class="mb-3">
+                        {{ form.release_date.label(class="form-label") }}
+                        {{ form.release_date(class="form-control") }}
+                    </div>
+                    <div class="mb-3">
+                        {{ form.price.label(class="form-label") }}
+                        {{ form.price(class="form-control") }}
+                    </div>
+                    <div class="mb-3">
+                        {{ form.pdf.label(class="form-label") }}
+                        {{ form.pdf(class="form-control") }}
+                    </div>
+                    <div class="mb-3">
+                        {{ form.section.label(class="form-label") }}
+                        {{ form.section(class="form-control") }}
+                    </div>
+                    <button type="submit" class="btn btn-purple">{{ form.submit.label }}</button>
+                    <a href="{{ url_for('lib.admindashboard') }}" class="btn btn-purple">Library Dashboard</a>
+                </form>
+            </div>
+            <br>
+        </div>
+        <br>
+    </div>
+{% endblock %}

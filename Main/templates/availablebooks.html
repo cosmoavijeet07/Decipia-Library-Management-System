@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Available Books
+{% endblock %}
+
+{% block style %}
+    <style>
+        .heading {
+            font-size: 32px;
+            font-weight: bold;
+            color: #330033; /* Deep purple color */
+        }
+        .book-table {
+            margin-top: 20px;
+        }
+        .book-row {
+            background-color: #f4e8ff; /* Very light purple */
+        }
+        .no-pdf {
+            color: red;
+            font-style: italic;
+        }
+        .btn-read, .btn-download {
+            margin: 5px;
+        }
+    </style>
+{% endblock style %}
+
+{% block body %}
+    <header class="d-flex justify-content-between align-items-center px-4 py-3" style="background-color: #5d3fd3;">
+        <h1 class="heading">{{ user.username }}</h1>
+        <button onclick="window.location.href='/userdashboard'" class="btn btn-light">Back to Dashboard</button>
+    </header>
+
+    <main class="container">
+        <table class="table book-table">
+            <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Author</th>
+                    <th>Genre</th>
+                    <th>Release Date</th>
+                    <th>Deadline</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for book in books %}
+                    <tr class="book-row">
+                        <td>{{ book.title }}</td>
+                        <td>{{ book.author }}</td>
+                        <td>{{ book.genre }}</td>
+                        <td>{{ book.releasedate.strftime('%Y-%m-%d') }}</td>
+                        {% for book in issued_books %}
+                        <td>{{ book.deadline.strftime('%Y-%m-%d') }}</td>
+                        {% endfor %}
+                        <td>
+                            <button class="btn btn-primary btn-read" onclick="window.location.href='/readbook/{{ book.id }}'">Read</button>
+                            {% if book.pdf %}
+                                <button class="btn btn-success btn-download" onclick="window.location.href='/download/{{ book.pdf }}'">Download</button>
+                            {% else %}
+                                <span class="no-pdf">No PDF Available</span>
+                            {% endif %}
+                            <button class="btn btn-warning btn-return" onclick="window.location.href='/returnbook/{{ book.id }}'">Return</button>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </main>
+{% endblock body %}

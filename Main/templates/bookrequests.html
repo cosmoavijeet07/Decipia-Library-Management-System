@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+
+{% block title %}Book Requests{% endblock %}
+
+{% block head %}
+    {{ super() }}
+
+    <style>
+        .issue-button {
+            color: #fff;
+            background-color: #4a2040; /* Dark purple button */
+            border-color: #4a2040;
+        }
+    </style>
+{% endblock %}
+
+{% block body %}
+<br>
+<h1 class="text-center bg-light py-3" style ="justify = center;">
+    Book Requests
+    <a href="{{ url_for('lib.admindashboard') }}" class="btn btn-primary">Library Dashboard</a>
+</h1>
+
+<div class="container my-4">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>User Name</th>
+                <th>Book Title</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for request in requests %}
+            <tr>
+                <td>{{ request.user.username }}</td>
+                <td>{{ request.book.title }}</td>
+                <td>
+                    <form action="{{ url_for('lib.issuebook', request_id=request.id) }}">
+                        <button type="submit" class="btn issue-button">Issue Book</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

@@ -1,0 +1,283 @@
+openapi: 3.0.0
+info:
+  title: Library API
+  version: 1.0.0
+  description: API for managing books and sections in a library system.
+
+servers:
+  - url: http://localhost:5001/api
+
+paths:
+  /books:
+    get:
+      summary: List all books
+      description: Retrieve a list of all books available in the library.
+      responses:
+        '200':
+          description: A list of books
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Book'
+      security:
+        - bearerAuth: []
+    post:
+      summary: Create a new book
+      description: Add a new book to the library.
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/BookForm'
+      responses:
+        '201':
+          description: Book created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Book'
+        '400':
+          description: Invalid data for creating a book
+      security:
+        - bearerAuth: []
+
+  /books/{id}:
+    get:
+      summary: Get a single book
+      description: Retrieve details about a specific book by ID.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Book details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Book'
+        '404':
+          description: Book not found
+      security:
+        - bearerAuth: []
+    put:
+      summary: Update a book
+      description: Update details of an existing book.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/BookForm'
+      responses:
+        '200':
+          description: Book updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Book'
+        '400':
+          description: Invalid data for updating the book
+        '404':
+          description: Book not found
+      security:
+        - bearerAuth: []
+    delete:
+      summary: Delete a book
+      description: Remove a book from the library by ID.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: Book deleted successfully
+        '404':
+          description: Book not found
+      security:
+        - bearerAuth: []
+
+  /sections:
+    get:
+      summary: List all sections
+      description: Retrieve a list of all sections in the library.
+      responses:
+        '200':
+          description: A list of sections
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Section'
+      security:
+        - bearerAuth: []
+    post:
+      summary: Create a new section
+      description: Add a new section to the library.
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/SectionForm'
+      responses:
+        '201':
+          description: Section created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Section'
+        '400':
+          description: Invalid data for creating a section
+      security:
+        - bearerAuth: []
+
+  /sections/{id}:
+    get:
+      summary: Get a single section
+      description: Retrieve details about a specific section by ID.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Section details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Section'
+        '404':
+          description: Section not found
+      security:
+        - bearerAuth: []
+    put:
+      summary: Update a section
+      description: Update details of an existing section.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/SectionForm'
+      responses:
+        '200':
+          description: Section updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Section'
+        '400':
+          description: Invalid data for updating the section
+        '404':
+          description: Section not found
+      security:
+        - bearerAuth: []
+    delete:
+      summary: Delete a section
+      description: Remove a section from the library by ID.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: Section deleted successfully
+        '404':
+          description: Section not found
+      security:
+        - bearerAuth: []
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+  schemas:
+    Book:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        title:
+          type: string
+        author:
+          type: string
+        content:
+          type: string
+        genre:
+          type: string
+        release_date:
+          type: string
+          format: date
+        price:
+          type: integer
+        pdf:
+          type: string
+          format: binary
+
+    BookForm:
+      type: object
+      properties:
+        title:
+          type: string
+        author:
+          type: string
+        content:
+          type: string
+        genre:
+          type: string
+        release_date:
+          type: string
+          format: date
+        price:
+          type: integer
+        pdf:
+          type: string
+          format: binary
+
+    Section:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        title:
+          type: string
+        description:
+          type: string
+
+    SectionForm:
+      type: object
+      properties:
+        title:
+          type: string
+        description:
+          type: string

@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<style>
+    .auth-button {
+        font-size: 24px; /* Larger font size for visibility */
+        padding: 20px; /* Padding to make buttons larger */
+        border-radius: 10px; /* Rounded corners for aesthetics */
+    }
+    .librarian-login {
+        position: absolute; /* Positioning it at the bottom right */
+        bottom: 20px; /* Margin from the bottom */
+        right: 20px; /* Margin from the right */
+        padding: 10px 20px; /* Padding for the button */
+        font-size: 18px; /* Suitable font size for the button */
+    }
+    .image-display {
+        max-width: 100%; /* Ensures the image does not overflow its container */
+        height: auto; /* Maintains the aspect ratio */
+        max-height: 500px; /* Limits the height of the image */
+        display: block; /* Makes the img element a block-level element */
+        margin: 0 auto; /* Centers the image horizontally */
+    }
+</style>
+{% endblock %}
+
+{% block title %}
+    Home
+{% endblock %}
+
+{% block body %}
+<div class="container">
+    <!-- Registration and Login Boxes -->
+    <div class="row mt-4 mb-4">
+        <div class="col-md-6">
+            <a href="signup" class="btn btn-primary auth-button w-100" role="button">Registration</a>
+        </div>
+        <div class="col-md-6">
+            <a href="login" class="btn btn-secondary auth-button w-100" role="button">Login</a>
+        </div>
+    </div>
+
+    <!-- Image Display -->
+    <div class="row mb-6">
+        <div class="col text-center"> <!-- Added text-center to center the image container -->
+            <img src="{{ url_for('static', filename='assets/4.jpg') }}" class="image-display" alt="Decorative Image">
+        </div>
+    </div>
+
+    <!-- Librarian Login Button -->
+    <div class="librarian-login">
+        <a href="adminlogin" class="btn btn-dark">Librarian Login</a>
+    </div>
+</div>
+{% endblock %}

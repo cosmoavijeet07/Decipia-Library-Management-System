@@ -1,0 +1,102 @@
+{% extends "base.html" %}
+
+{% block title %}
+    User Dashboard
+{% endblock %}
+
+{% block style %}
+    /* Custom style for the user dashboard */
+    .dashboard-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 20px;
+        background-color: #f3e5f5; /* Lighter purple */
+        border-bottom: 2px solid #ce93d8;
+        color: #4a148c; /* Deep purple for contrast */
+    }
+    .dashboard-button {
+        background-color: #ba68c8; /* Mid purple */
+        border: none;
+        padding: 10px 20px;
+        margin: 5px;
+        border-radius: 5px;
+        color: white;
+    }
+    .book-list, .section-list {
+        padding: 10px;
+        background-color: #e1bee7; /* Soft purple */
+        border-radius: 5px;
+        width: 48%;  
+        margin: 0 1%; 
+        box-sizing: border-box;
+    }
+    .content {
+        display: flex;  /* Activates Flexbox layout mode */
+        justify-content: space-between; /* Spaces the columns evenly */
+    }    
+    .action-button {
+        margin: 5px;
+        background-color: #ab47bc; /* Deeper purple */
+        color: white;
+        border: none;
+        padding: 5px 10px;
+        border-radius: 3px;
+    }
+    .search-bar {
+        display: flex;
+        align-items: center;
+    }
+    .search-input {
+        padding: 10px;
+        margin-right: 10px;
+        width: 300px;
+    }
+    .heading {
+        font-size: 32px; /* Adjust the size as needed */
+        font-weight: bold; /* Makes the text bold */
+        color: #330033; /* Deep purple color */
+    }   
+{% endblock %}
+
+{% block head %}
+    <!-- Additional head content if needed -->
+{% endblock %}
+
+{% block body %}
+    <div class="dashboard-header">
+        <span>Welcome, <h1 class= "heading">{{ user.username }}! </h1> </span>
+        <div>
+            <button class="dashboard-button" onclick="location.href='{{ url_for('auth.logout') }}'">Logout</button>
+            <button class="dashboard-button" onclick="location.href='{{ url_for('user.userprofile') }}'">UserProfile</button>
+            <button class="dashboard-button" onclick="location.href='{{ url_for('user.availablebooks') }}'">View Available Books</button>
+            <button class="dashboard-button" onclick="location.href='{{ url_for('user.requestedbooks') }}'">View Requested Books</button>
+            <form class="search-bar" action="{{ url_for('user.userdashboard') }}" method="post">
+                <input type="text" name="search_query" class="search-input" placeholder="Search Books or Sections...">
+                <button type="submit" class="dashboard-button">Search</button>
+            </form>
+        </div>
+    </div>
+    <div class="content">
+        <div class="book-list">
+            <h3>Available Books</h3>
+            {% for book in books %}
+                <div>
+                    <p>{{ book.title }} by {{ book.author }}</p>
+                    <form action="{{ url_for('user.requestbook', book_id=book.id) }}" method="post">
+                        <button type="submit" class="action-button">Request Book</button>
+                    </form>
+                </div>
+            {% endfor %}
+        </div>
+        <div class="section-list">
+            <h3>Sections</h3>
+            {% for section in sections %}
+                <div>
+                    <p>{{ section.title }}</p>
+                    <button class="action-button" onclick="location.href='{{ url_for('user.viewsection', section_id=section.id) }}'">View Section</button>
+                </div>
+            {% endfor %}
+        </div>
+    </div>    
+{% endblock %}

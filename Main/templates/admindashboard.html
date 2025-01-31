@@ -1,0 +1,91 @@
+{% extends "base.html" %}
+
+{% block title %}Admin Dashboard{% endblock %}
+
+{% block style %}
+<style>
+    .btn-custom {
+        margin-right: 10px;
+    }
+    .header-btns .btn {
+        margin-right: 5px;
+    }
+    .card-header, .card-footer {
+        background-color: #e3d2f0;
+    }
+    .card-body {
+        background-color: #f8f0ff;
+    }
+    .bg-custom-purple {
+        background-color: #5d3fd3;
+    }
+    .header-content {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+</style>
+{% endblock %}
+
+{% block head %}
+    <!-- Additional head content can be added here -->
+{% endblock head %}
+
+{% block body %}
+<div class="container-fluid bg-custom-purple text-white p-3">
+    <div class="header-content">
+        <h1 style="font-size: 32px; margin-bottom: 0;"><strong>Library Dashboard</strong></h1>
+        <div class="header-btns">
+            <a href="{{ url_for('auth.logout') }}" class="btn btn-danger btn-custom">Logout</a>
+            <a href="{{ url_for('lib.createbook') }}" class="btn btn-primary btn-custom">Create Book</a>
+            <a href="{{ url_for('lib.createsection') }}" class="btn btn-primary btn-custom">Create Section</a>
+            <a href="{{ url_for('lib.bookrequests') }}" class="btn btn-primary btn-custom">Book Requests</a>
+            <a href="{{ url_for('lib.updateexpiredbooks') }}" class="btn btn-warning btn-custom">Update Expiry</a>
+            <a href="{{ url_for('lib.adminstatistics') }}" class="btn btn-warning btn-custom">Statistics</a>
+        </div>
+    </div>
+</div>
+
+<div class="container mt-5">
+    <div class="row">
+        <!-- Books Column -->
+        <div class="col-md-4">
+            <h4>Books</h4>
+            {% for book in books %}
+            <div class="card mb-3">
+                <div class="card-body">
+                    <h5 class="card-title">{{ book.title }} by {{ book.author }}</h5>
+                    <a href="{{ url_for('lib.editbook', id=book.id) }}" class="btn btn-info">Edit</a>
+                    <a href="{{ url_for('lib.deletebook', id=book.id) }}" class="btn btn-danger">Delete</a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        <!-- Sections Column -->
+        <div class="col-md-4">
+            <h4>Sections</h4>
+            {% for section in sections %}
+            <div class="card mb-3">
+                <div class="card-body">
+                    <h5 class="card-title">{{ section.title }}</h5>
+                    <a href="{{ url_for('lib.editsection', id=section.id) }}" class="btn btn-info">Edit</a>
+                    <a href="{{ url_for('lib.deletesection', id=section.id) }}" class="btn btn-danger">Delete</a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        <!-- Users Column -->
+        <div class="col-md-4">
+            <h4>Users</h4>
+            {% for user in users %}
+            <div class="card mb-3">
+                <div class="card-body">
+                    <h5 class="card-title">{{ user.username }}</h5>
+                    <a href="{{ url_for('lib.viewuser', id=user.id) }}" class="btn btn-primary">View</a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock body %}

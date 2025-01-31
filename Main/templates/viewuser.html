@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+
+{% block title %}User Profile{% endblock %}
+
+{% block style %}
+    /* Additional styling specific to the user profile page */
+    .user-info {
+        background-color: #f5e8ff; /* Lighter purple for distinction */
+        border-radius: 10px;
+        padding: 20px;
+        margin-bottom: 20px;
+    }
+    .book-list {
+        margin-top: 20px;
+    }
+    .book-item {
+        background-color: #e6d4ff; /* Slightly different purple */
+        padding: 15px;
+        border-radius: 8px;
+        margin-bottom: 10px;
+    }
+    .book-title {
+        font-size: 20px;
+        font-weight: bold;
+    }
+{% endblock style %}
+
+{% block body %}
+<br>
+<div class="back-button">
+    <a href="{{ url_for('lib.admindashboard') }}" class="btn btn-secondary">Back to Dashboard</a>
+</div>
+<div class="container mt-5">
+    <div class="user-info">
+        <h2>User Information</h2>
+        <p><strong>Username:</strong> {{ user.username }}</p>
+        <p><strong>Email:</strong> {{ user.email }}</p>
+    </div>
+    <div class="book-list">
+        <h3>Issued Books</h3>
+        {% if issued_books %}
+            {% for book in issued_books %}
+                <div class="book-item">
+                    <span class="book-title">{{ book.book.title }}</span> - <small>Due by {{ book.deadline.strftime('%Y-%m-%d') }}</small>
+                    <button class="btn btn-warning float-end" onclick="window.location.href='/revokebook/{{ book.id }}'">Revoke Access</button>
+                </div>
+            {% endfor %}
+        {% else %}
+            <p>No books currently issued.</p>
+        {% endif %}
+    </div>
+</div>
+{% endblock body %}
